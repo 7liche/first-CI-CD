@@ -20,7 +20,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-
-      - name: Create file on remote host
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'Hello, World!' > /root/file.txt"
+          script: |
+            cd /root/
+            echo "Hello world!" > /root/new.txt
