@@ -1,0 +1,24 @@
+name: Create File on Remote Host
+
+on:
+  push:
+    branches:
+      - main  # 触发工作流的分支
+
+jobs:
+  create-file:
+    runs-on: Centos 7.9
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}  # 存储SSH私钥的GitHub Secret
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}  # 存储known_hosts的GitHub Secret
+
+      - name: Create file on remote host
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'Hello, World!' > /root/file.txt"
